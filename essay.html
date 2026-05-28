@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>随笔 - 追风的人</title>
+    <style>
+        :root {
+            --text-primary: #2c3e3f;
+            --text-secondary: #4a5c5e;
+            --text-muted: #6b7f81;
+            --text-light: #8fa0a2;
+            --accent: #5b9aa8;
+            --accent-soft: #6db5c4;
+            --accent-light: #a3d2dc;
+            --divider: #d4e8ef;
+            --max-width: 700px;
+            --header-padding-top: 5rem;
+            --header-padding-bottom: 3rem;
+            --section-gap: 4rem;
+            --article-gap: 2.8rem;
+            --shadow-card: 0 3px 20px rgba(140, 190, 210, 0.10);
+            --shadow-card-hover: 0 6px 28px rgba(140, 190, 210, 0.16);
+            --content-width: 660px;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            font-size: 16px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            text-rendering: optimizeLegibility;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(120deg,
+                    #e6f7ff 0%, #eaf6fb 8%, #f0f8ff 18%, #f3f9fd 28%,
+                    #f5fafe 38%, #f4f9fc 48%, #f0f8ff 58%, #edf7fc 68%,
+                    #e6f7ff 78%, #eaf6fb 88%, #e6f7ff 100%);
+            background-size: 400% 100%;
+            animation: breezeFlow 10s ease-in-out infinite;
+            background-attachment: fixed;
+            color: var(--text-primary);
+            font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei",
+                "Noto Sans SC", "WenQuanYi Micro Hei", -apple-system,
+                BlinkMacSystemFont, "Segoe UI", sans-serif;
+            line-height: 1.75;
+            letter-spacing: 0.02em;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 0 1.5rem;
+            position: relative;
+        }
+
+        @keyframes breezeFlow {
+            0% {
+                background-position: 0% 50%;
+            }
+            25% {
+                background-position: 50% 30%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            75% {
+                background-position: 50% 70%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .site-wrapper {
+            width: 100%;
+            max-width: var(--max-width);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .site-header {
+            text-align: center;
+            padding-top: var(--header-padding-top);
+            padding-bottom: var(--header-padding-bottom);
+            position: relative;
+        }
+
+        .site-header::before {
+            content: "";
+            position: absolute;
+            top: -80px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 360px;
+            height: 220px;
+            background: radial-gradient(ellipse at center,
+                    rgba(140, 200, 220, 0.14) 0%,
+                    rgba(160, 210, 230, 0.07) 35%,
+                    rgba(180, 220, 240, 0.03) 55%,
+                    transparent 72%);
+            pointer-events: none;
+            z-index: 0;
+            animation: glowPulse 10s ease-in-out infinite;
+        }
+
+        @keyframes glowPulse {
+            0%,
+            100% {
+                opacity: 0.75;
+                transform: translateX(-50%) scale(1);
+            }
+            50% {
+                opacity: 1;
+                transform: translateX(-50%) scale(1.08);
+            }
+        }
+
+        .site-title {
+            position: relative;
+            z-index: 1;
+            font-size: 2.8rem;
+            font-weight: 600;
+            letter-spacing: 0.06em;
+            background: linear-gradient(135deg, #3a6b7a 0%, #4d8a9b 30%, #5b9aa8 55%, #4d8a9b 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline-block;
+            margin-bottom: 0.5rem;
+            line-height: 1.3;
+        }
+
+        .site-subtitle {
+            position: relative;
+            z-index: 1;
+            font-size: 1.05rem;
+            font-weight: 400;
+            color: var(--text-muted);
+            letter-spacing: 0.08em;
+            font-style: italic;
+        }
+
+        .header-divider {
+            width: 60px;
+            height: 1px;
+            background: var(--divider);
+            margin: 1.8rem auto 0;
+            border: none;
+        }
+
+        .site-nav {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 1.5rem;
+            position: relative;
+            z-index: 1;
+            flex-wrap: wrap;
+        }
+
+        .site-nav a {
+            text-decoration: none;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            letter-spacing: 0.05em;
+            transition: color 0.3s ease;
+            padding: 0.2rem 0;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .site-nav a::after {
+            content: "";
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--accent-soft);
+            transition: width 0.3s ease;
+        }
+
+        .site-nav a:hover {
+            color: var(--accent);
+        }
+        .site-nav a:hover::after {
+            width: 100%;
+        }
+        .site-nav a.nav-active {
+            color: var(--accent);
+            font-weight: 500;
+        }
+        .site-nav a.nav-active::after {
+            width: 100%;
+        }
+
+        .site-main {
+            flex: 1;
+            padding-bottom: var(--section-gap);
+        }
+
+        .article-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: var(--article-gap);
+        }
+
+        .article-item {
+            position: relative;
+            padding: 2rem 2.2rem;
+            background: rgba(255, 255, 255, 0.48);
+            border-radius: 12px;
+            box-shadow: var(--shadow-card);
+            transition: box-shadow 0.35s ease, transform 0.35s ease;
+            border-bottom: none;
+        }
+        .article-item:hover {
+            box-shadow: var(--shadow-card-hover);
+            transform: translateY(-2px);
+        }
+
+        .article-meta {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.6rem;
+            flex-wrap: wrap;
+        }
+        .article-date {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            letter-spacing: 0.04em;
+            font-family: "SF Mono", "Cascadia Code", "Consolas", "Menlo", monospace;
+            white-space: nowrap;
+        }
+        .article-category {
+            font-size: 0.78rem;
+            color: var(--accent);
+            letter-spacing: 0.05em;
+            background: rgba(140, 200, 220, 0.15);
+            padding: 0.15rem 0.65rem;
+            border-radius: 20px;
+            white-space: nowrap;
+        }
+        .article-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            line-height: 1.4;
+            margin-bottom: 1.2rem;
+            letter-spacing: 0.03em;
+            background: linear-gradient(135deg, #2c4a52 0%, #3d6b78 50%, #4d8a9b 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .article-body {
+            font-size: 0.98rem;
+            color: var(--text-secondary);
+            line-height: 2;
+            letter-spacing: 0.028em;
+            max-width: var(--content-width);
+        }
+        .article-body p {
+            margin-bottom: 1.2rem;
+            text-indent: 2em;
+        }
+        .article-body p:last-child {
+            margin-bottom: 0;
+        }
+
+        .site-footer {
+            text-align: center;
+            padding: 2.5rem 0 3rem;
+            border-top: 1px solid var(--divider);
+            margin-top: 1rem;
+        }
+        .footer-credit {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            letter-spacing: 0.05em;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.3rem;
+        }
+        .footer-credit .brand {
+            background: linear-gradient(135deg, #5b9aa8 0%, #6db5c4 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+        .footer-email {
+            font-size: 0.78rem;
+            color: var(--text-light);
+            letter-spacing: 0.03em;
+        }
+        .footer-email a {
+            color: var(--accent);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        .footer-email a:hover {
+            color: var(--accent-soft);
+            text-decoration: underline;
+        }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 2.2rem;
+            right: 2.2rem;
+            z-index: 999;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.65);
+            border: 1px solid var(--divider);
+            box-shadow: 0 2px 12px rgba(140, 190, 210, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.35s ease;
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+        }
+        .back-to-top:hover {
+            background: rgba(200, 225, 240, 0.5);
+            border-color: var(--accent-light);
+            box-shadow: 0 4px 20px rgba(140, 190, 210, 0.25);
+            transform: translateY(-3px);
+        }
+        .back-to-top .arrow-up {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-left: 2px solid var(--accent);
+            border-top: 2px solid var(--accent);
+            transform: rotate(45deg);
+            margin-top: 3px;
+            transition: border-color 0.3s ease;
+        }
+        .back-to-top:hover .arrow-up {
+            border-color: var(--accent-soft);
+        }
+
+        @media screen and (max-width: 768px) {
+            :root {
+                --header-padding-top: 3.5rem;
+                --header-padding-bottom: 2.5rem;
+                --article-gap: 2rem;
+            }
+            body {
+                padding: 0 1.2rem;
+            }
+            .site-title {
+                font-size: 2.2rem;
+            }
+            .site-subtitle {
+                font-size: 0.95rem;
+            }
+            .site-nav {
+                gap: 1.5rem;
+                margin-top: 1.2rem;
+            }
+            .site-nav a {
+                font-size: 0.85rem;
+            }
+            .article-item {
+                padding: 1.5rem 1.5rem;
+            }
+            .article-title {
+                font-size: 1.3rem;
+            }
+            .article-body {
+                font-size: 0.92rem;
+                line-height: 1.9;
+            }
+            .article-body p {
+                margin-bottom: 1rem;
+                text-indent: 1.6em;
+            }
+            .back-to-top {
+                width: 38px;
+                height: 38px;
+                bottom: 1.5rem;
+                right: 1.5rem;
+            }
+            .back-to-top .arrow-up {
+                width: 8px;
+                height: 8px;
+                margin-top: 2px;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            :root {
+                --header-padding-top: 2.8rem;
+                --header-padding-bottom: 2rem;
+                --article-gap: 1.6rem;
+            }
+            body {
+                padding: 0 1rem;
+            }
+            .site-title {
+                font-size: 1.8rem;
+            }
+            .site-subtitle {
+                font-size: 0.85rem;
+            }
+            .site-nav {
+                gap: 1rem;
+                margin-top: 1rem;
+                flex-wrap: wrap;
+            }
+            .site-nav a {
+                font-size: 0.78rem;
+            }
+            .article-item {
+                padding: 1.2rem 1.1rem;
+                border-radius: 8px;
+            }
+            .article-title {
+                font-size: 1.15rem;
+            }
+            .article-body {
+                font-size: 0.87rem;
+                line-height: 1.85;
+            }
+            .article-body p {
+                margin-bottom: 0.85rem;
+                text-indent: 1.4em;
+            }
+            .back-to-top {
+                width: 34px;
+                height: 34px;
+                bottom: 1.2rem;
+                right: 1.2rem;
+            }
+            .back-to-top .arrow-up {
+                width: 7px;
+                height: 7px;
+                margin-top: 1px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="top" style="position:absolute;top:0;left:0;width:0;height:0;visibility:hidden;"></div>
+
+    <div class="site-wrapper">
+
+        <header class="site-header">
+            <h1 class="site-title">追风的人</h1>
+            <p class="site-subtitle">风停了，我还在追</p>
+            <hr class="header-divider" aria-hidden="true">
+            <nav class="site-nav" aria-label="主导航">
+                <a href="index.html">首页</a>
+                <a href="essay.html" class="nav-active">随笔</a>
+                <a href="about.html">关于</a>
+            </nav>
+        </header>
+
+        <main class="site-main">
+            <ul class="article-list">
+
+                <!-- 文章1：追风而行（完整长文） -->
+                <li class="article-item">
+                    <div class="article-meta">
+                        <time class="article-date" datetime="2026-05-24">2026.05.24</time>
+                        <span class="article-category">随笔</span>
+                    </div>
+                    <h2 class="article-title">追风而行</h2>
+                    <div class="article-body">
+                        <p>一直很喜欢“追风”这两个字，它不代表鲁莽的奔跑，也不代表盲目的追逐，更像是一种属于少年独有的执拗与温柔。我对风的执念，大概始于童年某个闷热的午后。那时我蹲在老家的院子里，看着爷爷扎的风筝摇摇晃晃飞上天空，线轴在我手里越转越快，风从指缝间穿过，带着麦田的清香和阳光的温度。我追着风筝跑过田埂，跑过小河，跑过整个蝉鸣不止的夏天，以为只要跑得够快，就能抓住风的尾巴。</p>
+                        <p>后来我才知道，风是抓不住的。它掠过你的发梢，拂过你的脸颊，穿过你的指尖，然后头也不回地奔向远方。可正是这种抓不住的自由，让我对“追风”这件事，有了一辈子的向往。我们这一生，其实都在不停赶路，不停前行，不停和生活交手。有人追名，有人逐利，有人追安稳的生活，有人追不确定的远方。而我，只想做一个追风的人。风从来不会为任何人停留，它来时肆意坦荡，走时悄无声息，可正因为它不停流动、不停奔赴，才拥有跨越山海、穿越四季的自由。它能翻过最高的山，能渡过最宽的海，能穿过最拥挤的人潮，也能抵达最偏僻的角落。它不受任何束缚，不被任何定义，永远鲜活，永远在路上。</p>
+                        <p>慢慢长大之后，我渐渐明白，所谓追风，追的从来不是风本身，而是藏在心底的热爱、坚持与不甘平庸的初心。我还记得第一次在电脑上敲下博客的第一个字时，窗外正刮着很大的风。那是一个深夜，整个城市都安静了下来，只有键盘敲击的声音和窗外的风声交织在一起。我不知道自己能写多久，也不知道这些文字会不会有人看，我只是单纯地想把心里的话写下来，把那些无人诉说的情绪，那些一闪而过的念头，那些对生活的感悟，都变成文字，藏在这个小小的博客里。</p>
+                        <p>那时的我，刚经历过一段很迷茫的时期。像很多同龄人一样，我站在人生的十字路口，不知道该往哪里走。身边的人都在告诉我，应该考一个稳定的工作，应该找一个合适的人结婚，应该过一种按部就班的生活。可我心里总有一个声音在说，这不是我想要的。我不想在二十几岁的年纪，就看到自己六十岁的样子；不想每天重复着同样的生活，一眼望到头；不想为了别人的期待，活成自己不喜欢的模样。</p>
+                        <p>就在我最迷茫的时候，我又一次在深夜里出门散步。风很大，吹得树叶哗哗作响，也吹乱了我的头发。我沿着街道漫无目的地走着，看着路边昏黄的路灯，看着偶尔驶过的车辆，看着窗户里透出的温暖灯光。风从四面八方涌来，包裹着我，仿佛在告诉我，没关系，慢慢来，你还有很多时间。就在那一刻，我突然想通了。既然不知道未来会怎样，那就先做自己喜欢的事吧。哪怕这件事没有回报，哪怕这件事不被别人理解，哪怕这件事看起来毫无意义。只要是自己热爱的，就值得坚持。</p>
+                        <p>于是，我有了这个叫“追风的人”的博客。我开始在深夜里写代码，搭建这个小小的网站；开始在有风的日子里写字，记录生活中的点点滴滴。我写深夜里的星光，写清晨的朝阳，写风吹过树叶的声音，写雨落在屋檐的节奏；写成长的烦恼，写生活的美好，写那些无人懂的孤独，写那些不期而遇的温暖。我不追热点，不蹭流量，不迎合任何人，只写自己真正想写的东西。</p>
+                        <p>生活不会永远顺遂，前路也不会一直平坦。写博客的这几年，我也遇到过很多困难。有时候写了很久的文章，突然就没了灵感，对着空白的屏幕发呆一整晚；有时候辛辛苦苦写出来的文字，没有人看，也没有人懂；有时候会遇到一些不友好的评论，让我怀疑自己是不是真的适合写字。我也曾想过放弃，觉得自己做的这件事，好像真的没有什么意义。</p>
+                        <p>可每当这个时候，我都会走到窗边，听听风声。风会吹走浮躁，吹散焦虑，也会带来希望、温柔与新生。我会想起自己当初为什么要开始，想起那些在深夜里敲下的文字，想起那些曾经被我的文字治愈过的陌生人。有读者给我留言说，在她最难过的时候，是我的文字陪她度过了那段艰难的时光；有读者说，我的文字让她觉得，原来这个世界上，还有人和她一样，在安静地追风，在认真地生活。这些留言，就像一束束光，照亮了我前行的路，也让我更加坚定了自己的选择。</p>
+                        <p>我渐渐明白，成长本就是一场漫长且孤独的旅途。没有人能一直陪着你，也没有人能替你成长。很多路，都要自己一个人走；很多苦，都要自己一个人扛；很多难过，都要自己一个人消化。我们总会在某个瞬间，突然觉得很孤独。看着身边的人都有了自己的方向，而自己还在原地徘徊；看着曾经无话不谈的朋友，渐渐变得陌生；看着热闹的人群，却觉得自己格格不入。</p>
+                        <p>孤独并不可怕，可怕的是你害怕孤独。其实，孤独是成长的必修课。只有在孤独的时候，你才能静下心来，看清自己的内心，知道自己真正想要的是什么。只有在孤独的时候，你才能不受外界的干扰，专注于自己喜欢的事，慢慢沉淀自己。那些无人问津的日子，那些独自熬过的夜晚，那些默默付出的努力，都不会白费。它们会化作你前行的底气，让你在未来的某一天，能够从容地面对生活中的所有风雨。</p>
+                        <p>没有人的人生是一帆风顺的，所有闪闪发光的未来，都是无数个默默坚持的当下拼凑而成。那些看似轻松从容的背后，都是熬过迷茫、熬过孤独、熬过自我怀疑的沉淀。你只看到别人站在台上闪闪发光的样子，却没看到他们在台下付出了多少汗水和努力；你只看到别人的人生一帆风顺，却没看到他们在背后经历了多少挫折和坎坷。</p>
+                        <p>这个世界上，从来没有什么一夜成名，只有百炼成钢。所有的成功，都不是偶然的，而是日复一日的坚持和积累。就像风，它不是一下子就形成的，而是无数个空气分子的流动汇聚而成；就像花，它不是一下子就盛开的，而是在泥土里扎根了很久，吸收了足够的阳光和雨露，才最终绽放。</p>
+                        <p>我们不必和别人比速度，不必追赶别人的脚步。每个人都有自己的人生时区，有人年少成名，有人大器晚成，快慢无关对错，稳步前行即是最好。有的人二十岁就当上了CEO，却在五十岁的时候去世了；有的人五十岁才开始创业，却在八十岁的时候取得了成功；有的人一辈子都在平凡的岗位上，却过得幸福快乐。</p>
+                        <p>人生不是一场赛跑，没有统一的终点，也没有统一的标准。你不需要按照别人的节奏来生活，也不需要活成别人期待的样子。你可以早一点成功，也可以晚一点成功；你可以过轰轰烈烈的人生，也可以过平淡安稳的人生。只要是你自己选择的，只要你觉得开心，那就足够了。</p>
+                        <p>我见过很多人，因为追赶别人的脚步，而迷失了自己。他们看着别人买房买车，自己也跟着买房买车，哪怕背负着沉重的房贷车贷；看着别人结婚生子，自己也跟着结婚生子，哪怕还没有做好准备；看着别人升职加薪，自己也拼命地往上爬，哪怕这份工作自己并不喜欢。他们每天都在忙碌，每天都在焦虑，却不知道自己到底在追求什么。</p>
+                        <p>其实，人生最可悲的，不是你没有得到想要的东西，而是你得到了之后，才发现那根本不是你想要的。所以，不要着急，不要焦虑，按照自己的节奏，慢慢走就好。你要相信，属于你的，终会到来；不属于你的，强求也没用。</p>
+                        <p>追风的意义，从来不是一定要抵达某个终点，而是在路上，我们学会了坚韧，学会了自愈，学会了和生活温柔相处。以前的我，总是很着急，急于看到结果，急于得到回报。如果一件事短期内看不到成效，我就会开始怀疑自己，甚至想要放弃。可现在的我，慢慢学会了耐心，学会了享受过程。</p>
+                        <p>我开始明白，很多事情，不是因为有希望才坚持，而是因为坚持了才有希望。就像写博客，我从来没有想过它能给我带来什么名利，我只是单纯地喜欢写字。可正是因为这份单纯的喜欢，让我坚持了这么久，也让我收获了很多意想不到的东西。我收获了一群同频的朋友，收获了内心的平静，收获了成长的力量。</p>
+                        <p>在路上，我们会遇到各种各样的困难和挫折，会受伤，会难过，会想要放弃。可正是这些经历，让我们变得更加坚韧。我们学会了在跌倒之后，自己爬起来；学会了在受伤之后，自己给自己疗伤；学会了在迷茫之后，重新找到方向。</p>
+                        <p>自愈，是成年人最重要的能力。生活中总会有很多不如意的事情，总会有很多让你难过的瞬间。没有人能一直安慰你，也没有人能一直陪着你。你要学会自己治愈自己，学会在难过的时候，给自己一个拥抱；学会在疲惫的时候，给自己一点休息的时间；学会在迷茫的时候，给自己一点鼓励。</p>
+                        <p>和生活温柔相处，是我这几年学到的最重要的一课。以前的我，总是和生活对抗，总是抱怨生活的不公，总是觉得生活应该按照我的想法来。可后来我才发现，生活从来都不会按照你的想法来，它有它自己的节奏，有它自己的规律。你越是和它对抗，就越是痛苦；你越是接纳它，就越是幸福。</p>
+                        <p>我开始学会接纳生活中的不完美，接纳自己的不完美。我不再抱怨生活的辛苦，而是学会在辛苦中寻找快乐；不再纠结过往的遗憾，而是学会珍惜当下；不再焦虑未知的将来，而是学会活在当下。我开始发现，原来平凡的日常里，藏着那么多的美好。清晨的一碗热粥，傍晚的一抹夕阳，风吹过树叶的声音，雨落在屋檐的节奏，这些看似微不足道的小事，却能给我带来满满的幸福感。</p>
+                        <p>走过风雨，见过烟火，才懂得平凡日常里的安稳与珍贵，才明白稳步前行、心怀热爱，就是最难得的成长。我曾经以为，成长就是变得越来越强大，越来越冷漠，能够刀枪不入，能够百毒不侵。可现在我才知道，真正的成长，不是变得冷漠，而是变得温柔；不是变得强大到不需要任何人，而是能够温柔地对待自己，也能够温柔地对待这个世界。</p>
+                        <p>成长，是一个慢慢变得柔软的过程。你会越来越懂得体谅别人的难处，越来越懂得珍惜身边的人，越来越懂得感恩生活中的每一份美好。你会发现，原来这个世界，并没有你想象的那么糟糕。虽然有黑暗，有冷漠，有不公，但也有光明，有温暖，有爱。</p>
+                        <p>风有千面，人生也有千面。有时候，风是温柔的，轻轻拂过你的脸颊，给你带来清凉；有时候，风是猛烈的，吹得你睁不开眼睛，让你寸步难行。人生也是如此，有晴空万里，也有风雨交加；有一帆风顺，也有坎坷崎岖。可无论是温柔的风，还是猛烈的风，都是风的一部分；无论是晴天，还是雨天，都是人生的一部分。</p>
+                        <p>我们不能改变风的方向，也不能改变人生的轨迹，但我们可以改变自己的心态。我们可以选择在温柔的风里，尽情享受生活的美好；也可以选择在猛烈的风里，勇敢地前行，不退缩，不放弃。</p>
+                        <p>我喜欢在风大的时候走路。不用刻意去往某个地方，只是漫无目的地走着，让风包裹住自己。风会吹走所有的烦恼和焦虑，让我的内心变得平静。我会看着路边的树木在风中摇曳，看着天上的云朵在风中飘荡，看着行人匆匆的脚步。我会觉得，自己就像风一样，自由且洒脱，不受任何束缚。</p>
+                        <p>有时候，我会走到海边，看着海浪一波一波地涌来，听着海浪拍打沙滩的声音。海风带着咸咸的味道，吹得我的头发乱飞。我会站在海边，静静地看着远方，看着海和天连成一片。那一刻，我会觉得，所有的烦恼都变得微不足道了。在大自然面前，人类是多么的渺小，那些我们以为天大的事情，其实根本不算什么。</p>
+                        <p>往后余生，依旧做追风的人。不慌不忙，不卑不亢，带着赤诚与温柔，奔赴属于自己的山海。纵使前路漫漫，亦知前路灿灿。我知道，未来的路还很长，还会遇到很多困难和挫折，还会有很多迷茫和无助的时刻。但我不会害怕，也不会退缩。因为我知道，风会一直陪着我，热爱会一直陪着我，那些曾经被我的文字治愈过的人，也会一直陪着我。</p>
+                        <p>我会继续在深夜里写代码，搭建这个小小的博客；会继续在有风的日子里写字，记录生活中的点点滴滴。我会一直写下去，直到我写不动的那一天。我希望，我的文字能够像风一样，吹到更多人的心里，给那些正在迷茫、正在难过、正在孤独的人，带去一点温暖，一点力量，一点希望。</p>
+                        <p>我希望，自己能够永远保持少年的赤诚与热爱，永远对生活充满好奇，永远对未来充满期待。我希望，自己能够像风一样，自由且坚定，温柔且有力量。不被世俗所束缚，不被别人的眼光所左右，活成自己喜欢的样子。</p>
+                        <p>我希望，有一天，我能够背着背包，去很多很多有风的地方。去看草原上的风，吹得青草随风起伏；去看沙漠里的风，卷起漫天的黄沙；去看山顶上的风，吹得云海翻涌；去看海边的风，掀起层层的海浪。我会把这些风景，都写进我的文字里，分享给更多的人。</p>
+                        <p>追风的人，永远年轻，永远热泪盈眶。风不会停，我们的脚步也不会停。我们会一直追着风，一直往前走，一直奔赴属于自己的山海。无论前路有多少风雨，无论未来有多少未知，我们都会带着热爱，带着勇气，带着温柔，坚定地走下去。</p>
+                        <p>因为我们知道，风停了，我们还在追。只要我们还在追，风就永远不会停。只要我们心怀热爱，就永远不会迷失方向。只要我们稳步前行，就终会抵达想要的远方。</p>
+                        <p>愿我们都能做追风的人，不慌不忙，不卑不亢，在自己的节奏里，慢慢成长，慢慢发光。愿我们都能在追风的路上，遇见更好的自己，遇见更多的美好。愿我们历尽千帆，归来仍是少年。</p>
+                    </div>
+                </li>
+
+                <!-- 文章2：风过人间，留下温柔 -->
+                <li class="article-item">
+                    <div class="article-meta">
+                        <time class="article-date" datetime="2026-05-22">2026.05.22</time>
+                        <span class="article-category">随笔</span>
+                    </div>
+                    <h2 class="article-title">风过人间，留下温柔</h2>
+                    <div class="article-body">
+                        <p>风是人间最沉默的信使，它不说话，却走遍了世间的每一个角落。它掠过春日的枝头，催开了第一朵桃花；它拂过夏日的荷塘，带来了满池的清香；它吹过秋日的稻田，染黄了整片大地；它掠过冬日的屋檐，捎来了漫天的飞雪。风过人间，留下了四季的痕迹，也留下了无尽的温柔。</p>
+                        <p>我总觉得，风是有记忆的。它记得每一朵花开的时间，记得每一片落叶的轨迹，记得每一个人走过的路。它会把远方的故事带到我们身边，也会把我们的思念捎给远方的人。那些说不出口的话，那些藏在心底的情绪，那些无法释怀的遗憾，都可以交给风。风会带着它们，飘向远方，然后消散在天地之间。</p>
+                        <p>小时候，我总喜欢站在风口，张开双臂，让风穿过我的身体。那时的我，以为风是有形状的，它会变成我想要的样子。长大后才知道，风没有形状，也没有颜色，可它却能填满所有的空白，治愈所有的伤口。当你感到难过的时候，去吹吹风吧。风会带走你的眼泪，也会带走你的烦恼；当你感到迷茫的时候，去吹吹风吧。风会给你指引方向，也会给你前行的力量。</p>
+                        <p>生活总是充满了各种各样的不如意，我们总会在某个瞬间，觉得疲惫不堪，觉得撑不下去。可每当这个时候，风总会如期而至。它轻轻拂过你的脸颊，仿佛在告诉你，没关系，一切都会过去的。就像乌云总会散去，风雨总会停歇，阳光总会再次洒满大地。</p>
+                        <p>风过人间，不问归期。它来了又走，走了又来，从来不会为任何人停留。可正是这种来去自如的自由，让我们明白，人生也应该如此。不必执着于过去，不必纠结于得失，不必强求于结果。来过，爱过，经历过，就足够了。</p>
+                        <p>愿我们都能像风一样，温柔且坚定，自由且洒脱。愿我们都能在风里，找到属于自己的温柔，找到属于自己的力量。愿风过人间，留下的都是美好，带走的都是遗憾。</p>
+                    </div>
+                </li>
+
+                <!-- 文章3：在安静里，慢慢生长 -->
+                <li class="article-item">
+                    <div class="article-meta">
+                        <time class="article-date" datetime="2026-05-20">2026.05.20</time>
+                        <span class="article-category">心语</span>
+                    </div>
+                    <h2 class="article-title">在安静里，慢慢生长</h2>
+                    <div class="article-body">
+                        <p>这个世界太吵了，到处都是喧嚣的声音。有人在追逐名利，有人在炫耀生活，有人在焦虑未来，有人在抱怨当下。我们被这些声音裹挟着，匆匆忙忙地往前走，却忘了停下来，听听自己内心的声音。</p>
+                        <p>我越来越喜欢安静的日子。关掉手机，远离人群，一个人待在房间里，看看书，写写字，听听歌。不用迎合任何人，不用伪装自己，不用在意别人的眼光。在安静的时光里，我可以和自己对话，可以看清自己的内心，可以知道自己真正想要的是什么。</p>
+                        <p>安静不是孤独，也不是逃避，而是一种沉淀，一种成长。只有在安静的时候，我们才能静下心来，思考人生的意义；只有在安静的时候，我们才能不受外界的干扰，专注于自己喜欢的事；只有在安静的时候，我们才能慢慢沉淀自己，积蓄前行的力量。</p>
+                        <p>那些在安静里默默努力的日子，那些独自熬过的夜晚，那些不被别人理解的坚持，终会在未来的某一天，开出最美的花。就像种子在泥土里默默扎根，没有人看到它的努力，可它终会长成参天大树；就像蝉在地下蛰伏多年，没有人知道它的等待，可它终会在夏天放声歌唱。</p>
+                        <p>不必羡慕别人的热闹，也不必害怕自己的孤独。每个人都有自己的生活方式，每个人都有自己的成长节奏。有的人喜欢在人群中发光发热，有的人喜欢在安静里慢慢生长。没有对错，只有适合不适合。</p>
+                        <p>愿我们都能在这个喧嚣的世界里，守住自己的本心，找到属于自己的安静。愿我们都能在安静里，慢慢沉淀，慢慢成长，慢慢变成更好的自己。</p>
+                    </div>
+                </li>
+
+                <!-- 文章4：平凡日子里的光 -->
+                <li class="article-item">
+                    <div class="article-meta">
+                        <time class="article-date" datetime="2026-05-18">2026.05.18</time>
+                        <span class="article-category">随笔</span>
+                    </div>
+                    <h2 class="article-title">平凡日子里的光</h2>
+                    <div class="article-body">
+                        <p>我们总以为，人生需要轰轰烈烈的剧情，需要惊天动地的成就，才算得上精彩。可慢慢长大之后才发现，最珍贵的，其实是那些平凡日子里的细碎美好。</p>
+                        <p>清晨醒来，看到窗外的阳光洒在地板上；出门上班，闻到路边早餐店飘来的香气；下班路上，看到天边的晚霞染红了天空；晚上回家，吃到一碗热腾腾的饭菜。这些看似微不足道的小事，却能给我们带来满满的幸福感。</p>
+                        <p>生活从来都不是只有诗和远方，更多的是柴米油盐的日常。可正是这些柴米油盐的日常，拼凑成了我们完整的人生。那些平凡的日子，就像一颗颗散落的珍珠，虽然不起眼，却能在不经意间，发出温暖的光。</p>
+                        <p>不必抱怨生活的平淡，也不必嫌弃日子的琐碎。平淡才是生活的常态，琐碎才是日子的本质。学会在平淡的日子里寻找美好，学会在琐碎的日常中感受幸福，才是人生最重要的课题。</p>
+                        <p>一朵花的绽放，一阵风的吹拂，一场雨的落下，一个微笑的瞬间，一句温暖的话语，这些都是平凡日子里的光。它们虽然微弱，却足以照亮我们前行的路，足以温暖我们的心灵。</p>
+                        <p>愿我们都能拥有一双发现美的眼睛，一颗感受美好的心。愿我们都能在平凡的日子里，找到属于自己的光，活成自己喜欢的样子。</p>
+                    </div>
+                </li>
+
+                <!-- 文章5：人生是一场独自的远行 -->
+                <li class="article-item">
+                    <div class="article-meta">
+                        <time class="article-date" datetime="2026-05-15">2026.05.15</time>
+                        <span class="article-category">旅途</span>
+                    </div>
+                    <h2 class="article-title">人生是一场独自的远行</h2>
+                    <div class="article-body">
+                        <p>人生就像一场独自的远行，我们都是孤独的旅人。从出生的那一刻起，我们就踏上了这条没有回头路的旅途。一路上，我们会遇到很多人，会经历很多事，会看到很多风景。可最终，能陪我们走到最后的，只有我们自己。</p>
+                        <p>有些人，只能陪我们走一段路；有些事，只能成为我们生命中的回忆。我们会在某个路口相遇，也会在某个路口告别。相遇是缘分，告别也是缘分。不必遗憾，也不必难过，因为所有的相遇，都是为了更好的告别；所有的告别，都是为了更好的重逢。</p>
+                        <p>在这场独自的远行中，我们会经历孤独，会经历迷茫，会经历痛苦，会经历失落。可正是这些经历，让我们变得更加坚强，更加成熟，更加懂得珍惜。我们学会了一个人吃饭，一个人走路，一个人面对困难，一个人治愈自己。</p>
+                        <p>不必害怕孤独，也不必害怕独自前行。孤独是成长的必修课，独自前行是人生的常态。只有当我们学会了和自己相处，学会了独自面对一切，我们才能真正地长大，才能真正地掌控自己的人生。</p>
+                        <p>愿我们都能在这场独自的远行中，勇敢地往前走，不回头，不退缩。愿我们都能在旅途中，遇见更好的自己，遇见更多的美好。愿我们历尽千帆，归来仍是少年。</p>
+                    </div>
+                </li>
+
+            </ul>
+        </main>
+
+        <footer class="site-footer">
+            <p class="footer-credit">
+                <span class="brand">@2026 追风的人 版权所有</span>
+            </p>
+            <p class="footer-email">
+                联系邮箱：<a href="mailto:wtywty1025@qq.com">wtywty1025@qq.com</a>
+            </p>
+        </footer>
+
+    </div>
+
+    <a href="#top" class="back-to-top" title="回到顶部" aria-label="回到顶部">
+        <span class="arrow-up"></span>
+    </a>
+</body>
+</html>
