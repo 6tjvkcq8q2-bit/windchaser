@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Wind Chaser</title>
+    <style>
+        :root {
+            --text-body: #333333;
+            --text-nav: #666666;
+            --border-color: #E5E9EC;
+            --white: #FFFFFF;
+            --gradient-nav-btn: linear-gradient(180deg, #78b2c5 0%, #528899 100%);
+            --gradient-title: linear-gradient(90deg, #69a8bb 0%, #5894a6 100%);
+            --bg-page: radial-gradient(circle at 50% 0%, #ffffff 0%, #f6fafa 100%);
+            --font-serif: 'Georgia', 'Times New Roman', serif;
+            --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            --max-width: 680px;
+            --radius: 20px;
+            --shadow: 0 2px 12px rgba(0,0,0,0.04);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--bg-page);
+            color: var(--text-body);
+            font-family: var(--font-serif);
+            line-height: 1.8;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+            flex: 1;
+            width: 100%;
+        }
+
+        /* 导航栏 */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.2rem 0;
+            margin-bottom: 2.5rem;
+            border-bottom: 1px solid var(--border-color);
+            flex-wrap: wrap;
+            gap: 0.8rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            font-family: var(--font-sans);
+            font-size: 0.95rem;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-nav);
+            transition: color 0.2s;
+            cursor: pointer;
+            padding-bottom: 2px;
+            border-bottom: 2px solid transparent;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--text-body);
+            border-bottom-color: #6299AA;
+        }
+
+        .lang-switch {
+            font-family: var(--font-sans);
+            font-size: 0.9rem;
+            display: flex;
+            gap: 0.4rem;
+            align-items: center;
+        }
+
+        .lang-btn {
+            background: var(--white);
+            border: 1px solid var(--border-color);
+            padding: 0.3rem 0.9rem;
+            border-radius: var(--radius);
+            cursor: pointer;
+            color: var(--text-nav);
+            font-size: 0.85rem;
+            transition: all 0.25s ease;
+            font-weight: 400;
+        }
+
+        /* 未选中状态：白底灰字 */
+        .lang-btn:not(.active) {
+            background: #FFFFFF;
+            color: #666666;
+        }
+
+        /* 选中状态：渐变底色 + 白字 */
+        .lang-btn.active {
+            background: var(--gradient-nav-btn);
+            border-color: transparent;
+            color: #FFFFFF;
+            font-weight: 500;
+            box-shadow: 0 2px 8px rgba(98,153,170,0.25);
+        }
+
+        /* 页面切换动画 */
+        .page {
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* 标题使用渐变装饰（仅限首页主标题） */
+        .site-title.gradient-text {
+            background: var(--gradient-title);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: inline-block;
+        }
+
+        .site-title {
+            font-size: 2.4rem;
+            font-weight: normal;
+            margin-bottom: 0.3rem;
+            letter-spacing: 1px;
+            color: var(--text-body);
+        }
+
+        /* 普通标题保留纯色 */
+        .page:not(#home) .site-title {
+            background: none;
+            -webkit-text-fill-color: var(--text-body);
+            color: var(--text-body);
+        }
+
+        .slogan {
+            font-style: italic;
+            color: var(--text-nav);
+            margin-bottom: 0.4rem;
+            font-size: 1.05rem;
+        }
+
+        .intro {
+            margin-top: 2.2rem;
+            font-size: 1.05rem;
+            color: var(--text-body);
+            white-space: pre-line;
+            line-height: 2;
+        }
+
+        .intro p {
+            margin-bottom: 1.4rem;
+        }
+
+        .essay-list {
+            margin-top: 2rem;
+            list-style: none;
+        }
+
+        .essay-item {
+            padding: 1.2rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .essay-item h3 {
+            font-weight: normal;
+            font-size: 1.2rem;
+            margin-bottom: 0.3rem;
+            color: var(--text-body);
+        }
+
+        .essay-item .date {
+            font-size: 0.85rem;
+            color: var(--text-nav);
+            font-family: var(--font-sans);
+        }
+
+        .about-content {
+            margin-top: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            color: var(--text-body);
+        }
+
+        .about-content p {
+            line-height: 1.9;
+        }
+
+        /* 页脚 */
+        footer {
+            border-top: 1px solid var(--border-color);
+            padding: 1.8rem 1.5rem;
+            text-align: center;
+            color: var(--text-nav);
+            font-size: 0.9rem;
+            font-family: var(--font-sans);
+            background: rgba(255,255,255,0.7);
+            backdrop-filter: blur(4px);
+            margin-top: 2rem;
+        }
+
+        footer .footer-line {
+            margin: 0.3rem 0;
+        }
+
+        footer a {
+            color: #6299AA;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 500px) {
+            .site-title {
+                font-size: 1.9rem;
+            }
+            .nav-links {
+                gap: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav>
+            <div class="nav-links">
+                <a data-page="home" class="active">Home</a>
+                <a data-page="essays">Essays</a>
+                <a data-page="about">About</a>
+            </div>
+            <div class="lang-switch">
+                <button class="lang-btn active" data-lang="en">EN</button>
+                <button class="lang-btn" data-lang="zh">中文</button>
+            </div>
+        </nav>
+
+        <!-- 首页 -->
+        <div id="home" class="page active">
+            <h1 class="site-title gradient-text" data-i18n="homeTitle">The Wind Chaser</h1>
+            <p class="slogan" data-i18n="slogan1">The wind dies down, but my pursuit never stops.</p>
+            <p class="slogan" data-i18n="slogan2">Stay quiet, the wind will carry you to distant lands.</p>
+            <div class="intro" data-i18n="homeIntro"></div>
+        </div>
+
+        <!-- 随笔 -->
+        <div id="essays" class="page">
+            <h1 class="site-title" data-i18n="essaysTitle">Essays</h1>
+            <ul class="essay-list" data-i18n="essayList"></ul>
+        </div>
+
+        <!-- 关于 -->
+        <div id="about" class="page">
+            <h1 class="site-title" data-i18n="aboutTitle">About</h1>
+            <div class="about-content" data-i18n="aboutContent"></div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-line" data-i18n="footerLine1"></div>
+        <div class="footer-line" data-i18n="footerLine2"></div>
+        <div class="footer-line">X：<a href="https://x.com/Breezekjdc" target="_blank" rel="noopener">@Breezekjdc</a></div>
+    </footer>
+
+    <script>
+        (function() {
+            const i18n = {
+                en: {
+                    navHome: 'Home',
+                    navEssays: 'Essays',
+                    navAbout: 'About',
+                    homeTitle: 'The Wind Chaser',
+                    slogan1: 'The wind dies down, but my pursuit never stops.',
+                    slogan2: 'Stay quiet, the wind will carry you to distant lands.',
+                    homeIntro: `<p>Hi there.</p>
+<p>This is a little corner scribbled down by someone chasing the wind. The wind blows in from afar—sweeping through valleys, skimming across oceans—carrying stories from all over the world. And I’m just the one running in that wind, trying to catch those fleeting moments with words.</p>
+<p>Some say chasing the wind is futile. The wind will never stop for anyone; it comes and goes as it pleases, free and unrestrained. But I’ve come to understand that the meaning of chasing the wind has never been about whether you can catch it. It lies in the rhythm of your heartbeat as you run, the scenery sweeping past along the way, and the person you remain—always on the road.</p>
+<p>This blog holds a few stories about the wind, about the paths, about growing up. There are sunny days and rainy ones, straight roads and winding detours. Every word is a footprint left on the journey of chasing the wind.</p>
+<p>The wind dies down, but my pursuit never stops. Because I know the next gust is waiting for me just up ahead.</p>
+<p>Thank you for stopping by. May we all be the ones who forever walk toward the wind.</p>`,
+                    essaysTitle: 'Essays',
+                    essayList: `<li class="essay-item">
+                        <h3>Where the Trail Begins</h3>
+                        <span class="date">2026-05-28</span>
+                    </li>
+                    <li class="essay-item">
+                        <h3>Light Through the Pines</h3>
+                        <span class="date">2026-05-15</span>
+                    </li>
+                    <li class="essay-item">
+                        <h3>Silence Above the Clouds</h3>
+                        <span class="date">2026-04-30</span>
+                    </li>`,
+                    aboutTitle: 'About',
+                    aboutContent: `<p>A silent wanderer with a camera and a notebook, chasing light and wind across the earth.</p>
+<p>This space is home to trail notes, landscape frames, and quiet reflections collected along the way. No rush, no noise—just the sound of wind through the trees and the rhythm of footsteps on dirt.</p>
+<p>Always on the road. Always listening to the wind.</p>`,
+                    footerLine1: '©2026 The Wind Chaser',
+                    footerLine2: 'Contact：zfengderen@gmail.com｜fengderenzhui@gmail.com'
+                },
+                zh: {
+                    navHome: '首页',
+                    navEssays: '随笔',
+                    navAbout: '关于',
+                    homeTitle: '追风的人',
+                    slogan1: '风停了，我还在追',
+                    slogan2: '不必声张，风会替你去往远方',
+                    homeIntro: `<p>嗨，你好。</p>
+<p>这里是一个追风的人写下的小小角落。风从远方吹来，穿过山谷、越过海洋，带着世界各地的故事。而我只是那个在风中奔跑的人，试图用文字捕捉那些稍纵即逝的瞬间。</p>
+<p>有人说，追风是徒劳的。风不会为任何人停留，它来去自由，无拘无束。但我渐渐明白——追风的意义，从来不在于能否追上风，而在于奔跑时心跳的节奏、沿途掠过的风景，以及那个始终在路上的自己。</p>
+<p>这个博客，记录着一些关于风、关于路、关于成长的故事。有晴朗也有阴雨，有坦途也有弯路。每一个字，都是追风路上的脚印。</p>
+<p>风停了，我还在追。因为我知道，下一阵风，正在不远处等着我。</p>
+<p>谢谢你来到这里，愿我们都能成为那个永远向着风前行的人。</p>`,
+                    essaysTitle: '随笔',
+                    essayList: `<li class="essay-item">
+                        <h3>山路始处</h3>
+                        <span class="date">2026-05-28</span>
+                    </li>
+                    <li class="essay-item">
+                        <h3>穿过松林的光</h3>
+                        <span class="date">2026-05-15</span>
+                    </li>
+                    <li class="essay-item">
+                        <h3>云层之上的寂静</h3>
+                        <span class="date">2026-04-30</span>
+                    </li>`,
+                    aboutTitle: '关于',
+                    aboutContent: `<p>一个带着相机和笔记本的沉默漫游者，穿越大地，追逐光与风。</p>
+<p>这个空间存放着沿途收集的山径笔记、风光片段和安静思考。不赶时间，不制造噪音——只有风穿过树林的声音，和脚踩泥土的节奏。</p>
+<p>始终在路上。始终聆听风的方向。</p>`,
+                    footerLine1: '©2026 追风的人',
+                    footerLine2: '联络邮箱：zfengderen@gmail.com、fengderenzhui@gmail.com'
+                }
+            };
+
+            let currentLang = localStorage.getItem('lang') || 'en';
+            const langBtns = document.querySelectorAll('.lang-btn');
+            const navLinks = document.querySelectorAll('.nav-links a');
+            const pages = document.querySelectorAll('.page');
+
+            function applyLanguage(lang) {
+                document.querySelectorAll('[data-i18n]').forEach(el => {
+                    const key = el.getAttribute('data-i18n');
+                    if (i18n[lang] && i18n[lang][key] !== undefined) {
+                        if (['homeIntro', 'essayList', 'aboutContent', 'footerLine1', 'footerLine2'].includes(key)) {
+                            el.innerHTML = i18n[lang][key];
+                        } else {
+                            el.textContent = i18n[lang][key];
+                        }
+                    }
+                });
+
+                navLinks.forEach(link => {
+                    const page = link.getAttribute('data-page');
+                    if (page === 'home') link.textContent = i18n[lang].navHome;
+                    if (page === 'essays') link.textContent = i18n[lang].navEssays;
+                    if (page === 'about') link.textContent = i18n[lang].navAbout;
+                });
+
+                langBtns.forEach(btn => {
+                    const btnLang = btn.getAttribute('data-lang');
+                    if (btnLang === lang) {
+                        btn.classList.add('active');
+                    } else {
+                        btn.classList.remove('active');
+                    }
+                });
+
+                localStorage.setItem('lang', lang);
+                currentLang = lang;
+                document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
+            }
+
+            function switchPage(pageName) {
+                pages.forEach(page => page.classList.remove('active'));
+                document.getElementById(pageName).classList.add('active');
+
+                navLinks.forEach(link => {
+                    const linkPage = link.getAttribute('data-page');
+                    if (linkPage === pageName) {
+                        link.classList.add('active');
+                    } else {
+                        link.classList.remove('active');
+                    }
+                });
+            }
+
+            langBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const lang = this.getAttribute('data-lang');
+                    if (lang !== currentLang) applyLanguage(lang);
+                });
+            });
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const page = this.getAttribute('data-page');
+                    switchPage(page);
+                });
+            });
+
+            applyLanguage(currentLang);
+            switchPage('home');
+
+            function handleHash() {
+                const hash = window.location.hash.substring(1);
+                if (hash === 'essays' || hash === 'about' || hash === 'home') {
+                    switchPage(hash);
+                }
+            }
+            window.addEventListener('hashchange', handleHash);
+            handleHash();
+        })();
+    </script>
+</body>
+</html>
