@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>追风的人 - 技术博客</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="page-wrapper">
+        <!-- 主内容区 -->
+        <main class="main-content">
+            <!-- 首页大标题玻璃卡片 -->
+            <section class="hero-card glass-card">
+                <div class="hero-card-inner">
+                    <h1 class="site-title">追风的人</h1>
+                    <p class="site-tagline">在代码的原野上，追逐技术之光</p>
+                    <div class="hero-divider"></div>
+                    <p class="site-intro">
+                        这里记录着一名开发者的技术随笔与思考。<br>
+                        从前端工程到后端架构，从工具探索到效率心得——<br>
+                        每一行代码都是一次追风的旅程。
+                    </p>
+                    <a href="articles.html" class="hero-link">
+                        <span>浏览文章</span>
+                        <svg class="arrow-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                    </a>
+                </div>
+            </section>
+
+            <!-- 最新文章预览 -->
+            <section class="preview-section">
+                <h2 class="section-label">最新随笔</h2>
+                <div class="preview-list">
+                    <a href="article.html" class="preview-item glass-card">
+                        <div class="preview-left">
+                            <svg class="doc-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                            <span class="preview-title">构建一个轻量级前端工具链：我的实践与思考</span>
+                        </div>
+                        <svg class="arrow-icon-sm" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+                    </a>
+                    <a href="article.html" class="preview-item glass-card">
+                        <div class="preview-left">
+                            <svg class="doc-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                            <span class="preview-title">终端效率提升指南：那些被忽略的Shell技巧</span>
+                        </div>
+                        <svg class="arrow-icon-sm" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+                    </a>
+                </div>
+            </section>
+        </main>
+
+        <!-- 底部液态玻璃通栏 -->
+        <footer class="footer-glass glass-card">
+            <nav class="footer-nav">
+                <a href="index.html" class="footer-nav-link active">首页</a>
+                <span class="footer-nav-sep">·</span>
+                <a href="articles.html" class="footer-nav-link">文章</a>
+                <span class="footer-nav-sep">·</span>
+                <a href="about.html" class="footer-nav-link">关于我</a>
+            </nav>
+            <p class="footer-copy">@2026 追风的人 版权所有</p>
+            <p class="footer-email">联系邮箱 <a href="mailto:zfengderen@gmail.com">zfengderen@gmail.com</a></p>
+        </footer>
+    </div>
+    <script src="js/main.js"></script>
+</body>
+</html>
