@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>域名→Go仓库连通测试</title>
+<style>
+body{font-family:sans-serif;padding:20px;}
+.ok{color:green;font-weight:bold;}
+.fail{color:red;font-weight:bold;}
+</style>
+</head>
+<body>
+<h1>Cloudflare Pages ↔ Go 仓库 连通测试</h1>
+
+<script>
+(async () => {
+  const info = document.createElement("div");
+
+  // 1. 当前访问的域名
+  info.innerHTML += "<p>🌐 当前域名：" + location.hostname + "</p>";
+
+  // 2. 检测是否走 Cloudflare
+  try {
+    const res = await fetch("/", { method: "HEAD" });
+    const cf = res.headers.get("cf-ray");
+    if (cf) {
+      info.innerHTML += "<p class='ok'>✅ 已走 Cloudflare（cf-ray 存在）</p>";
+    } else {
+      info.innerHTML += "<p class='fail'>❌ 未走 Cloudflare</p>";
+    }
+  } catch (e) {
+    info.innerHTML += "<p class='fail'>❌ Cloudflare 检测失败：" + e.message + "</p>";
+  }
+
+  // 3. 检测是否能拿到仓库页面（间接证明绑定正常）
+  try {
+    const res = await fetch("/", { method: "GET" });
+    if (res.ok) {
+      info.innerHTML += "<p class='ok'>✅ Pages 项目可正常访问（绑定仓库有效）</p>";
+    } else {
+      info.innerHTML += "<p class='fail'>❌ Pages 返回异常：" + res.status + "</p>";
+    }
+  } catch (e) {
+    info.innerHTML += "<p class='fail'>❌ 仓库绑定访问失败：" + e.message + "</p>";
+  }
+
+  document.body.appendChild(info);
+})();
+</script>
+
+</body>
+</html>
